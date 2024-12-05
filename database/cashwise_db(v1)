@@ -1,0 +1,352 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.4 (Debian 16.4-1.pgdg120+2)
+-- Dumped by pg_dump version 17.0
+
+-- Started on 2024-12-05 18:22:19
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 5 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: cashwise_db_user
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO cashwise_db_user;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 220 (class 1259 OID 16428)
+-- Name: user_finances; Type: TABLE; Schema: public; Owner: cashwise_db_user
+--
+
+CREATE TABLE public.user_finances (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    category character varying(50) NOT NULL,
+    amount numeric(10,2) NOT NULL,
+    transaction_date date NOT NULL,
+    description text,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+ALTER TABLE public.user_finances OWNER TO cashwise_db_user;
+
+--
+-- TOC entry 219 (class 1259 OID 16427)
+-- Name: user_finances_id_seq; Type: SEQUENCE; Schema: public; Owner: cashwise_db_user
+--
+
+CREATE SEQUENCE public.user_finances_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.user_finances_id_seq OWNER TO cashwise_db_user;
+
+--
+-- TOC entry 3391 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: user_finances_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER SEQUENCE public.user_finances_id_seq OWNED BY public.user_finances.id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 16411)
+-- Name: user_profiles; Type: TABLE; Schema: public; Owner: cashwise_db_user
+--
+
+CREATE TABLE public.user_profiles (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    first_name character varying(50),
+    last_name character varying(50),
+    avatar_url text,
+    preferences jsonb DEFAULT '{}'::jsonb
+);
+
+
+ALTER TABLE public.user_profiles OWNER TO cashwise_db_user;
+
+--
+-- TOC entry 217 (class 1259 OID 16410)
+-- Name: user_profiles_id_seq; Type: SEQUENCE; Schema: public; Owner: cashwise_db_user
+--
+
+CREATE SEQUENCE public.user_profiles_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.user_profiles_id_seq OWNER TO cashwise_db_user;
+
+--
+-- TOC entry 3392 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: user_profiles_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER SEQUENCE public.user_profiles_id_seq OWNED BY public.user_profiles.id;
+
+
+--
+-- TOC entry 216 (class 1259 OID 16399)
+-- Name: users; Type: TABLE; Schema: public; Owner: cashwise_db_user
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    email character varying(100) NOT NULL,
+    google_id character varying(50) NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    last_login timestamp without time zone
+);
+
+
+ALTER TABLE public.users OWNER TO cashwise_db_user;
+
+--
+-- TOC entry 215 (class 1259 OID 16398)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: cashwise_db_user
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.users_id_seq OWNER TO cashwise_db_user;
+
+--
+-- TOC entry 3393 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 3221 (class 2604 OID 16431)
+-- Name: user_finances id; Type: DEFAULT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_finances ALTER COLUMN id SET DEFAULT nextval('public.user_finances_id_seq'::regclass);
+
+
+--
+-- TOC entry 3219 (class 2604 OID 16414)
+-- Name: user_profiles id; Type: DEFAULT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_profiles ALTER COLUMN id SET DEFAULT nextval('public.user_profiles_id_seq'::regclass);
+
+
+--
+-- TOC entry 3217 (class 2604 OID 16402)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 3385 (class 0 OID 16428)
+-- Dependencies: 220
+-- Data for Name: user_finances; Type: TABLE DATA; Schema: public; Owner: cashwise_db_user
+--
+
+COPY public.user_finances (id, user_id, category, amount, transaction_date, description, created_at) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3383 (class 0 OID 16411)
+-- Dependencies: 218
+-- Data for Name: user_profiles; Type: TABLE DATA; Schema: public; Owner: cashwise_db_user
+--
+
+COPY public.user_profiles (id, user_id, first_name, last_name, avatar_url, preferences) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3381 (class 0 OID 16399)
+-- Dependencies: 216
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: cashwise_db_user
+--
+
+COPY public.users (id, email, google_id, created_at, last_login) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3394 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: user_finances_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cashwise_db_user
+--
+
+SELECT pg_catalog.setval('public.user_finances_id_seq', 1, false);
+
+
+--
+-- TOC entry 3395 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: user_profiles_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cashwise_db_user
+--
+
+SELECT pg_catalog.setval('public.user_profiles_id_seq', 1, false);
+
+
+--
+-- TOC entry 3396 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cashwise_db_user
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+
+
+--
+-- TOC entry 3234 (class 2606 OID 16436)
+-- Name: user_finances user_finances_pkey; Type: CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_finances
+    ADD CONSTRAINT user_finances_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3230 (class 2606 OID 16419)
+-- Name: user_profiles user_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_profiles
+    ADD CONSTRAINT user_profiles_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3232 (class 2606 OID 16421)
+-- Name: user_profiles user_profiles_user_id_key; Type: CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_profiles
+    ADD CONSTRAINT user_profiles_user_id_key UNIQUE (user_id);
+
+
+--
+-- TOC entry 3224 (class 2606 OID 16407)
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- TOC entry 3226 (class 2606 OID 16409)
+-- Name: users users_google_id_key; Type: CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_google_id_key UNIQUE (google_id);
+
+
+--
+-- TOC entry 3228 (class 2606 OID 16405)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3236 (class 2606 OID 16437)
+-- Name: user_finances user_finances_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_finances
+    ADD CONSTRAINT user_finances_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3235 (class 2606 OID 16422)
+-- Name: user_profiles user_profiles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: cashwise_db_user
+--
+
+ALTER TABLE ONLY public.user_profiles
+    ADD CONSTRAINT user_profiles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 2049 (class 826 OID 16391)
+-- Name: DEFAULT PRIVILEGES FOR SEQUENCES; Type: DEFAULT ACL; Schema: -; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT ALL ON SEQUENCES TO cashwise_db_user;
+
+
+--
+-- TOC entry 2051 (class 826 OID 16393)
+-- Name: DEFAULT PRIVILEGES FOR TYPES; Type: DEFAULT ACL; Schema: -; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT ALL ON TYPES TO cashwise_db_user;
+
+
+--
+-- TOC entry 2050 (class 826 OID 16392)
+-- Name: DEFAULT PRIVILEGES FOR FUNCTIONS; Type: DEFAULT ACL; Schema: -; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT ALL ON FUNCTIONS TO cashwise_db_user;
+
+
+--
+-- TOC entry 2048 (class 826 OID 16390)
+-- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: -; Owner: postgres
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT SELECT,INSERT,REFERENCES,DELETE,TRIGGER,TRUNCATE,UPDATE ON TABLES TO cashwise_db_user;
+
+
+-- Completed on 2024-12-05 18:22:43
+
+--
+-- PostgreSQL database dump complete
+--
+
